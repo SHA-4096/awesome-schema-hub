@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "SSHD Configuration Schema",
+    "description": "Schema for validating SSHD configuration settings.",
+    "type": "object",
+    "properties": {
+      "Port": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 65535,
+        "default": 22,
+        "description": "The port number on which the SSH server listens."
+      },
+      "PermitRootLogin": {
+        "type": "string",
+        "enum": ["yes", "no", "prohibit-password", "without-password", "forced-commands-only"],
+        "default": "no",
+        "description": "Specifies whether root can log in using ssh."
+      },
+      "PasswordAuthentication": {
+        "type": "boolean",
+        "default": false,
+        "description": "Specifies whether password authentication is allowed."
+      },
+      "ChallengeResponseAuthentication": {
+        "type": "boolean",
+        "default": false,
+        "description": "Specifies whether challenge-response authentication is allowed."
+      },
+      "PubkeyAuthentication": {
+        "type": "boolean",
+        "default": true,
+        "description": "Specifies whether public key authentication is allowed."
+      },
+      "AllowUsers": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._-]+$"
+        },
+        "description": "A list of users who are allowed to log in via SSH."
+      },
+      "AllowGroups": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._-]+$"
+        },
+        "description": "A list of groups whose members are allowed to log in via SSH."
+      },
+      "DenyUsers": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._-]+$"
+        },
+        "description": "A list of users who are denied access via SSH."
+      },
+      "DenyGroups": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9._-]+$"
+        },
+        "description": "A list of groups whose members are denied access via SSH."
+      },
+      "PermitEmptyPasswords": {
+        "type": "boolean",
+        "default": false,
+        "description": "Specifies whether the server allows login to accounts with empty passwords."
+      },
+      "X11Forwarding": {
+        "type": "boolean",
+        "default": false,
+        "description": "Specifies whether X11 forwarding is permitted."
+      },
+      "MaxAuthTries": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 6,
+        "description": "Specifies the maximum number of authentication attempts permitted per connection."
+      },
+      "MaxSessions": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 10,
+        "description": "Specifies the maximum number of open sessions permitted per network connection."
+      },
+      "LoginGraceTime": {
+        "type": "string",
+        "pattern": "^[0-9]+[smhd]?$",
+        "default": "2m",
+        "description": "Time allowed for successful authentication before the server disconnects."
+      },
+      "ClientAliveInterval": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 0,
+        "description": "Specifies the timeout interval (in seconds) for sending keepalive messages to the client."
+      },
+      "ClientAliveCountMax": {
+        "type": "integer",
+        "minimum": 1,
+        "default": 3,
+        "description": "Specifies the number of client alive messages which may be sent without receiving any messages back from the client."
+      },
+      "UsePAM": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enables the use of Pluggable Authentication Modules (PAM)."
+      },
+      "Subsystem": {
+        "type": "object",
+        "patternProperties": {
+          "^[a-zA-Z0-9._-]+$": {
+            "type": "string"
+          }
+        },
+        "description": "Specifies a subsystem to be used, such as sftp."
+      }
+    },
+    "required": ["Port", "PermitRootLogin", "PasswordAuthentication"]
+  }
+  
